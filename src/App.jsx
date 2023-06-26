@@ -18,7 +18,7 @@ function App() {
             incorrect_answers: item.incorrect_answers.map((inAnswer) => {
               return decodeText(inAnswer);
             }),
-            isCorrect: false
+            isCorrect: false,
           };
         });
         setQuestions(updatedResults);

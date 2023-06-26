@@ -7,9 +7,38 @@ function Question({
   setQuestions,
   incorrectAnswers,
   correctAnswer,
-  question
+  question,
 }) {
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
+  const [selected, setSelected] = useState("");
+
+  function handleChange(e, quest) {
+    setSelected({
+      ...selected,
+      [quest]: e.target.value,
+    });
+
+    const updatedQuestions = questions.map((quest) => {
+      if (quest.correct_answer === e.target.value) {
+        return {
+          ...quest,
+          isCorrect: true,
+        };
+      } else {
+        return {
+          ...quest,
+          isCorrect: false,
+        };
+      }
+    });
+    setQuestions(updatedQuestions);
+
+    // console.log(
+    //   updatedQuestions.map((item) => {
+    //     return item.isCorrect;
+    //   })
+    // );
+  }
 
   useEffect(() => {
     setShuffledAnswers(shuffleArray(allAnswers));
@@ -28,7 +57,8 @@ function Question({
         answer={answer}
         question={question}
         questions={questions}
-        setQuestions={setQuestions}
+        selected={selected}
+        handleChange={handleChange}
       />
     );
   });
@@ -38,7 +68,7 @@ function Question({
       <h1 className="text-[#293264] font-bold font-karla mb-[12px]">
         {question}
       </h1>
-      <div className="grid grid-cols-2 justify-center gap-3 mb-[30px] min-[680px]:flex-row">
+      <div className="grid grid-cols-2 justify-center gap-3 mb-[30px] min-[900px]:grid-cols-4">
         {allAnswersElements}
       </div>
       <hr />
