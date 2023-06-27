@@ -6,8 +6,10 @@ import { decodeText } from "../utils";
 function App() {
   const [questions, setQuestions] = useState([]);
   const [isHomeVisible, setIsHomeVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   function getApiData() {
+    setIsLoading(true);
     fetch("https://opentdb.com/api.php?amount=5&type=multiple")
       .then((res) => res.json())
       .then((data) => {
@@ -21,6 +23,7 @@ function App() {
             isCorrect: false,
           };
         });
+        setIsLoading(false);
         setQuestions(updatedResults);
       });
   }
@@ -38,6 +41,7 @@ function App() {
         <Home handleClick={handleClick} />
       ) : (
         <QuizPage
+          isLoading={isLoading}
           questions={questions}
           setQuestions={setQuestions}
         />

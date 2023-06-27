@@ -2,42 +2,15 @@ import { useEffect, useState } from "react";
 import { shuffleArray } from "../../utils";
 import Answer from "./Answer";
 
-function Question({
-  questions,
-  setQuestions,
-  incorrectAnswers,
-  correctAnswer,
-  question,
-}) {
+function Question({ questions, question, correctAnswer, incorrectAnswers }) {
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
   const [selected, setSelected] = useState("");
 
-  function handleChange(e, quest) {
-    setSelected({
-      ...selected,
-      [quest]: e.target.value,
-    });
-
-    const updatedQuestions = questions.map((quest) => {
-      if (quest.correct_answer === e.target.value) {
-        return {
-          ...quest,
-          isCorrect: true,
-        };
-      } else {
-        return {
-          ...quest,
-          isCorrect: false,
-        };
-      }
-    });
-    setQuestions(updatedQuestions);
-
-    // console.log(
-    //   updatedQuestions.map((item) => {
-    //     return item.isCorrect;
-    //   })
-    // );
+  function handleRadioChange(e) {
+    setSelected(e.target.value);
+    if (e.target.value === correctAnswer) {
+      //
+    }
   }
 
   useEffect(() => {
@@ -54,17 +27,17 @@ function Question({
     return (
       <Answer
         key={answer}
+        questions={questions}
         answer={answer}
         question={question}
-        questions={questions}
+        handleRadioChange={handleRadioChange}
         selected={selected}
-        handleChange={handleChange}
       />
     );
   });
 
   return (
-    <div key={question}>
+    <div>
       <h1 className="text-[#293264] font-bold font-karla mb-[12px]">
         {question}
       </h1>
