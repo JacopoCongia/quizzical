@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Home from "./components/Home";
 import QuizPage from "./components/QuizPage";
 import { decodeText } from "../utils";
@@ -6,10 +6,8 @@ import { decodeText } from "../utils";
 function App() {
   const [questions, setQuestions] = useState([]);
   const [isHomeVisible, setIsHomeVisible] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
 
   function getApiData() {
-    setIsLoading(true);
     fetch("https://opentdb.com/api.php?amount=5&type=multiple")
       .then((res) => res.json())
       .then((data) => {
@@ -21,19 +19,20 @@ function App() {
               return decodeText(inAnswer);
             }),
             isCorrect: false,
+            isSelected: false,
           };
         });
-        setIsLoading(false);
         setQuestions(updatedResults);
       });
   }
 
   function handleClick() {
-    getApiData();
     setIsHomeVisible(false);
   }
 
-  // useEffect(() => {}, []);
+  useEffect(() => {
+    getApiData();
+  }, []);
 
   return (
     <>
@@ -41,7 +40,6 @@ function App() {
         <Home handleClick={handleClick} />
       ) : (
         <QuizPage
-          isLoading={isLoading}
           questions={questions}
           setQuestions={setQuestions}
         />

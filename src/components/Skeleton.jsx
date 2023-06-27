@@ -19,7 +19,6 @@ function Skeleton({ times, className }) {
     "via-white",
     "to-gray-200"
   );
-  //   const skeletonArray = new Array(count);
 
   const boxes = Array(times)
     .fill(0)
