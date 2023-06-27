@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Home from "./components/Home";
 import QuizPage from "./components/QuizPage";
 import { decodeText } from "../utils";
@@ -19,6 +19,7 @@ function App() {
               return decodeText(inAnswer);
             }),
             isCorrect: false,
+            isSelected: false,
           };
         });
         setQuestions(updatedResults);
@@ -26,11 +27,12 @@ function App() {
   }
 
   function handleClick() {
-    getApiData();
     setIsHomeVisible(false);
   }
 
-  // useEffect(() => {}, []);
+  useEffect(() => {
+    getApiData();
+  }, []);
 
   return (
     <>

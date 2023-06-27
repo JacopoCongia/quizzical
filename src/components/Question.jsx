@@ -2,73 +2,57 @@ import { useEffect, useState } from "react";
 import { shuffleArray } from "../../utils";
 import Answer from "./Answer";
 
-function Question({
-  questions,
-  setQuestions,
-  incorrectAnswers,
-  correctAnswer,
-  question,
-}) {
+function Question({ entry, questions, setQuestions }) {
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
   const [selected, setSelected] = useState("");
+  const { question, correct_answer, incorrect_answers } = entry;
+  const correctAnswers = questions.filter((q) => {
+    return q.isCorrect;
+  });
 
-  function handleChange(e, quest) {
-    setSelected({
-      ...selected,
-      [quest]: e.target.value,
-    });
+  function handleRadioChange(e) {
+    setSelected(e.target.value);
 
-    const updatedQuestions = questions.map((quest) => {
-      if (quest.correct_answer === e.target.value) {
-        return {
-          ...quest,
-          isCorrect: true,
-        };
-      } else {
-        return {
-          ...quest,
-          isCorrect: false,
-        };
-      }
-    });
-    setQuestions(updatedQuestions);
-
-    // console.log(
-    //   updatedQuestions.map((item) => {
-    //     return item.isCorrect;
-    //   })
-    // );
+    if (e.target.value === correct_answer) {
+      const newQuestions = questions.map((q) => {
+        if (q.correct_answer === e.target.value) {
+          return { ...q, isCorrect: true };
+        } else return q;
+      });
+      setQuestions(newQuestions);
+    } else return entry;
   }
 
   useEffect(() => {
     setShuffledAnswers(shuffleArray(allAnswers));
   }, []);
 
-  const allAnswers = incorrectAnswers
+  const allAnswers = incorrect_answers
     .map((answer) => {
       return answer;
     })
-    .concat(correctAnswer);
+    .concat(correct_answer);
 
   const allAnswersElements = shuffledAnswers.map((answer) => {
     return (
       <Answer
         key={answer}
+        questions={questions}
         answer={answer}
         question={question}
-        questions={questions}
+        handleRadioChange={handleRadioChange}
         selected={selected}
-        handleChange={handleChange}
+        entry={entry}
       />
     );
   });
 
   return (
-    <div key={question}>
+    <div>
       <h1 className="text-[#293264] font-bold font-karla mb-[12px]">
         {question}
       </h1>
-      <div className="grid grid-cols-2 justify-center gap-3 mb-[30px] min-[900px]:grid-cols-4">
+      <div className="flex flex-wrap justify-center gap-3 mb-[30px]">
         {allAnswersElements}
       </div>
       <hr />
