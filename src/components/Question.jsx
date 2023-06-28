@@ -59,10 +59,12 @@ function Question({ entry, entries, setEntries, endgame }) {
 
   return (
     <div>
-      <h1 className="mb-[1em] font-karla font-bold text-[#293264]">
+      <h1 className="mb-[1.5em] text-center font-karla font-bold text-[#293264]">
         {question}
       </h1>
-      <div className="mb-[30px] flex flex-wrap gap-4">{allAnswersElements}</div>
+      <div className="mb-[30px] flex flex-wrap justify-center gap-4">
+        {allAnswersElements}
+      </div>
       <hr className="mb-[1em]" />
     </div>
   );

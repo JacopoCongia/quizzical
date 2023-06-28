@@ -35,12 +35,15 @@ function QuizPage({ entries, setEntries, getApiData }) {
 
   return (
     <div>
-      <h1 className="pt-[1.5em] text-center font-inter text-3xl">
-        Quizzical! A quiz for everyone
+      <h1 className="pt-[1.5em] text-center font-inter text-[2.5rem] font-bold text-[#4D5B9E]">
+        Quizzical!{" "}
+        <span className="block text-[1rem] uppercase text-black">
+          A quiz for everyone
+        </span>
       </h1>
       <form
         onSubmit={(e) => handleSubmit(e)}
-        className="flex flex-col items-start gap-[15px] px-[75px] py-[40px]"
+        className="flex flex-col items-center gap-[15px] px-[75px] py-[40px]"
       >
         {questionsEl}
         <button className="self-center rounded-[15px] bg-[#4D5B9E] px-8 py-3 font-inter text-[0.8rem] text-white hover:opacity-80">
