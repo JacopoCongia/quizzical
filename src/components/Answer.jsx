@@ -1,17 +1,38 @@
-function Answer({ answer, question, handleRadioChange, selected, entry }) {
+function Answer({
+  answer,
+  question,
+  isChecked,
+  handleAnswerChange,
+  endgame,
+  isCorrect,
+  correctAnswer,
+}) {
+  // Update this line with the conditional checking if the answer is correct
+  const endgameAnswerHighlight =
+    isCorrect && endgame
+      ? "peer-checked:bg-green-700"
+      : !isCorrect && endgame
+      ? "peer-checked:bg-red-700 peer-checked:text-white"
+      : "";
+
+  const correctAnswerHighlight =
+    endgame && correctAnswer === answer && "bg-green-700 text-white";
+
   return (
     <div>
       <input
-        className="hidden peer"
+        disabled={endgame && true}
+        className="peer hidden"
         type="radio"
         id={answer}
-        value={answer}
         name={question}
-        checked={selected === answer}
-        onChange={(e) => handleRadioChange(e)}
+        value={answer}
+        checked={isChecked[question] === answer}
+        onChange={(e) => handleAnswerChange(e, question)}
       />
+
       <label
-        className={` hover:cursor-pointer select-none font-inter text-[#293264] text-[0.8rem] peer-checked:bg-[#D6DBF5] border border-[#4D5B9E] px-3 py-1 rounded-[9px] whitespace-nowrap`}
+        className={`select-none whitespace-nowrap rounded-[9px] border border-[#4D5B9E] px-3 py-2 font-inter text-[0.8rem] text-[#293264] hover:animate-bounce hover:cursor-pointer hover:opacity-80 peer-checked:bg-[#D6DBF5] ${endgameAnswerHighlight} ${correctAnswerHighlight}`}
         htmlFor={answer}
       >
         {answer}
