@@ -2,60 +2,68 @@ import { useEffect, useState } from "react";
 import { shuffleArray } from "../../utils";
 import Answer from "./Answer";
 
-function Question({ entry, questions, setQuestions }) {
+function Question({ entry, entries, setEntries, endgame }) {
   const [shuffledAnswers, setShuffledAnswers] = useState([]);
-  const [selected, setSelected] = useState("");
-  const { question, correct_answer, incorrect_answers } = entry;
-  const correctAnswers = questions.filter((q) => {
-    return q.isCorrect;
-  });
+  const [isChecked, setIsChecked] = useState({});
+  const [isCorrect, setIsCorrect] = useState(false);
+  const { question, correctAnswer, wrongAnswers } = entry;
 
-  function handleRadioChange(e) {
-    setSelected(e.target.value);
+  function handleAnswerChange(e) {
+    const { value } = e.target;
+    setIsChecked((prevIsChecked) => {
+      return {
+        ...prevIsChecked,
+        [question]: value,
+      };
+    });
 
-    if (e.target.value === correct_answer) {
-      const newQuestions = questions.map((q) => {
-        if (q.correct_answer === e.target.value) {
-          return { ...q, isCorrect: true };
-        } else return q;
+    setIsCorrect(
+      entries.some((en) => {
+        return en.correctAnswer === value;
+      })
+    );
+
+    console.log(isCorrect);
+
+    setEntries((prevEntries) => {
+      return prevEntries.map((item) => {
+        if (item.question === e.target.name) {
+          return {
+            ...item,
+            selectedAnswer: value,
+          };
+        } else return item;
       });
-      setQuestions(newQuestions);
-    } else return entry;
+    });
   }
 
   useEffect(() => {
-    setShuffledAnswers(shuffleArray(allAnswers));
+    setShuffledAnswers(shuffleArray([...wrongAnswers, correctAnswer]));
   }, []);
-
-  const allAnswers = incorrect_answers
-    .map((answer) => {
-      return answer;
-    })
-    .concat(correct_answer);
 
   const allAnswersElements = shuffledAnswers.map((answer) => {
     return (
       <Answer
         key={answer}
-        questions={questions}
-        answer={answer}
         question={question}
-        handleRadioChange={handleRadioChange}
-        selected={selected}
-        entry={entry}
+        answer={answer}
+        correctAnswer={correctAnswer}
+        isChecked={isChecked}
+        handleAnswerChange={handleAnswerChange}
+        endgame={endgame}
+        entries={entries}
+        isCorrect={isCorrect}
       />
     );
   });
 
   return (
     <div>
-      <h1 className="text-[#293264] font-bold font-karla mb-[12px]">
+      <h1 className="mb-[1em] font-karla font-bold text-[#293264]">
         {question}
       </h1>
-      <div className="flex flex-wrap justify-center gap-3 mb-[30px]">
-        {allAnswersElements}
-      </div>
-      <hr />
+      <div className="mb-[30px] flex flex-wrap gap-4">{allAnswersElements}</div>
+      <hr className="mb-[1em]" />
     </div>
   );
 }

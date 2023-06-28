@@ -1,37 +1,58 @@
+import { useState } from "react";
 import Question from "./Question";
 
-function QuizPage({ questions, setQuestions }) {
-  const correctAnswers = questions.map((item) => {
-    return item.correct_answer;
+function QuizPage({ entries, setEntries, getApiData }) {
+  const [endgame, setEndgame] = useState(false);
+  const correctAnswers = entries.filter((item) => {
+    if (item.selectedAnswer === item.correctAnswer) {
+      return true;
+    }
   });
 
-  function handleCheckAnswers(e) {
+  function handleSubmit(e) {
     e.preventDefault();
+    setEndgame(true);
+
+    if (endgame) {
+      getApiData();
+      setEndgame(false);
+    }
   }
 
-  const questionsElement = questions.map((entry) => {
+  const questionsEl = entries.map((entry) => {
     const { question } = entry;
 
     return (
       <Question
         key={question}
         entry={entry}
-        questions={questions}
-        setQuestions={setQuestions}
+        entries={entries}
+        setEntries={setEntries}
+        endgame={endgame}
       />
     );
   });
 
   return (
-    <form
-      onSubmit={(e) => handleCheckAnswers(e)}
-      className="flex flex-col gap-[15px] items-center text-center py-[40px] px-[75px]"
-    >
-      {questionsElement}
-      <button className="font-inter px-8 py-3 text-[0.8rem] rounded-[15px] bg-[#4D5B9E] text-white">
-        Check Answers
-      </button>
-    </form>
+    <div>
+      <h1 className="pt-[1.5em] text-center font-inter text-3xl">
+        Quizzical! A quiz for everyone
+      </h1>
+      <form
+        onSubmit={(e) => handleSubmit(e)}
+        className="flex flex-col items-start gap-[15px] px-[75px] py-[40px]"
+      >
+        {questionsEl}
+        <button className="self-center rounded-[15px] bg-[#4D5B9E] px-8 py-3 font-inter text-[0.8rem] text-white hover:opacity-80">
+          {endgame ? "Play Again" : "Check Answers"}
+        </button>
+        {endgame && (
+          <div className="self-center rounded-[10px] bg-yellow-200 p-4 font-inter">
+            You got {correctAnswers.length}/{entries.length} answers correct!
+          </div>
+        )}
+      </form>
+    </div>
   );
 }
 
