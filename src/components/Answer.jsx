@@ -32,7 +32,7 @@ function Answer({
       />
 
       <label
-        className={`select-none whitespace-nowrap rounded-[9px] border border-[#4D5B9E] px-3 py-2 font-inter text-[0.8rem] text-[#293264] hover:animate-bounce hover:cursor-pointer hover:opacity-80 peer-checked:bg-[#D6DBF5] ${endgameAnswerHighlight} ${correctAnswerHighlight}`}
+        className={`select-none whitespace-nowrap rounded-[9px] border border-[#4D5B9E] px-3 py-2 font-inter text-[0.8rem] text-[#293264] hover:cursor-pointer hover:bg-[#E3E7FF] peer-checked:bg-[#D6DBF5] ${endgameAnswerHighlight} ${correctAnswerHighlight}`}
         htmlFor={answer}
       >
         {answer}

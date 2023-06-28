@@ -37,7 +37,7 @@ function QuizPage({ entries, setEntries, getApiData }) {
     <div>
       <h1 className="pt-[1.5em] text-center font-inter text-[2.5rem] font-bold text-[#4D5B9E]">
         Quizzical!{" "}
-        <span className="block text-[1rem] uppercase text-black">
+        <span className="block text-[1rem] uppercase text-[#323232]">
           A quiz for everyone
         </span>
       </h1>
