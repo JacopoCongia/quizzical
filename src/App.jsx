@@ -1,14 +1,25 @@
 import { useState, useEffect } from "react";
-import Home from "./components/Home";
-import QuizPage from "./components/QuizPage";
 import { decodeText } from "../utils";
+import HomePage from "./components/HomePage";
+import QuizPage from "./components/QuizPage";
 
 function App() {
   const [entries, setEntries] = useState([]);
   const [isHomeVisible, setIsHomeVisible] = useState(true);
+  const [selected, setSelected] = useState({
+    difficulty: "easy",
+    amount: "5",
+    categories: "any",
+  });
 
   function getApiData() {
-    fetch("https://opentdb.com/api.php?amount=5&type=multiple")
+    fetch(
+      `https://opentdb.com/api.php?amount=${
+        selected.amount
+      }&type=multiple&difficulty=${selected.difficulty}&category=${
+        selected.categories === "any" ? "" : selected.categories
+      }`
+    )
       .then((res) => res.json())
       .then((data) => {
         const updatedResults = data.results.map((result) => {
@@ -27,21 +38,25 @@ function App() {
 
   function handleClick() {
     setIsHomeVisible(false);
+    getApiData();
   }
 
-  useEffect(() => {
-    getApiData();
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <>
       {isHomeVisible ? (
-        <Home handleClick={handleClick} />
+        <HomePage
+          handleClick={handleClick}
+          selected={selected}
+          setSelected={setSelected}
+        />
       ) : (
         <QuizPage
           entries={entries}
           setEntries={setEntries}
           getApiData={getApiData}
+          setIsHomeVisible={setIsHomeVisible}
         />
       )}
     </>
