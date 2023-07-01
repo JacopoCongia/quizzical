@@ -14,7 +14,6 @@ function App() {
   });
 
   function getApiData() {
-    console.log("Fetch Start");
     setIsLoading(true);
     fetch(
       `https://opentdb.com/api.php?amount=${
@@ -36,7 +35,6 @@ function App() {
           };
         });
         setEntries(updatedResults);
-        console.log("Fetch End");
         setIsLoading(false);
       });
   }

@@ -10,6 +10,8 @@ function Question({ entry, entries, setEntries, endgame }) {
 
   function handleAnswerChange(e) {
     const { value } = e.target;
+
+    // Handles the controlled radio input element
     setIsChecked((prevIsChecked) => {
       return {
         ...prevIsChecked,
@@ -17,12 +19,14 @@ function Question({ entry, entries, setEntries, endgame }) {
       };
     });
 
+    // Checks if the current answer is the correct one
     setIsCorrect(
       entries.some((en) => {
         return en.correctAnswer === value;
       })
     );
 
+    // Assigns the currently selected answer to the entries array
     setEntries((prevEntries) => {
       return prevEntries.map((item) => {
         if (item.question === e.target.name) {
