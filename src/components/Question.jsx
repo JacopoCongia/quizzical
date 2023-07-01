@@ -56,7 +56,7 @@ function Question({ entry, entries, setEntries, endgame }) {
   });
 
   return (
-    <div className="max-w-[700px]">
+    <div className="w-[100%] min-w-[320px] max-w-[700px]">
       <h1 className="mb-[1.5em] text-center font-karla font-bold text-[#293264]">
         {question}
       </h1>

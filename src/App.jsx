@@ -6,6 +6,7 @@ import QuizPage from "./components/QuizPage";
 function App() {
   const [entries, setEntries] = useState([]);
   const [isHomeVisible, setIsHomeVisible] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [selected, setSelected] = useState({
     difficulty: "easy",
     amount: "5",
@@ -13,6 +14,8 @@ function App() {
   });
 
   function getApiData() {
+    console.log("Fetch Start");
+    setIsLoading(true);
     fetch(
       `https://opentdb.com/api.php?amount=${
         selected.amount
@@ -33,6 +36,8 @@ function App() {
           };
         });
         setEntries(updatedResults);
+        console.log("Fetch End");
+        setIsLoading(false);
       });
   }
 
@@ -57,6 +62,8 @@ function App() {
           setEntries={setEntries}
           getApiData={getApiData}
           setIsHomeVisible={setIsHomeVisible}
+          isLoading={isLoading}
+          selected={selected}
         />
       )}
     </>
