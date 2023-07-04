@@ -103,7 +103,7 @@ const data = {
         value: "30",
       },
       {
-        category: "Anime & Mange",
+        category: "Anime & Manga",
         value: "31",
       },
       {
